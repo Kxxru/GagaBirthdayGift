@@ -25,7 +25,6 @@ body {
   pointer-events: none;
   animation: drift 50s linear infinite;
 }
-
 @keyframes drift {
   0% { transform: translateX(-100vw); }
   100% { transform: translateX(100vw); }
@@ -40,7 +39,6 @@ h1 {
   background: rgba(102, 109, 132, 0.6);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
-  /* fallback */
   background-color: rgba(102, 109, 132, 0.8);
   font-family: "Caveat", "Segoe UI", sans-serif;
   font-size: 2.2rem;
@@ -72,7 +70,7 @@ h1 {
   box-shadow: 0 0 30px rgba(255,255,255,.7);
 }
 
-/* Sections hidden by default */
+/* Sections */
 .section {
   font-size: 1.35em;
   margin-top: 30px;
@@ -81,7 +79,7 @@ h1 {
   color: #2b618f;
 }
 
-/* Handwritten Letter Container */
+/* Letter */
 #paper {
   background-image: url('https://i.pinimg.com/736x/7c/46/9c/7c469c612d2d1bbecdf09c919b9d9ae3.jpg');
   background-size: cover;
@@ -99,7 +97,7 @@ h1 {
   white-space: pre-line;
 }
 
-/* Portrait Image */
+/* Portrait */
 img.portrait {
   width: 220px;
   border: 6px solid #a7d8ff;
@@ -113,19 +111,17 @@ img.portrait {
   transition: transform 0.35s, box-shadow 0.35s;
   animation: float 4s ease-in-out infinite;
 }
-
 @keyframes float {
   0% { transform: translateY(0px) rotate(-1deg); }
   50% { transform: translateY(-12px) rotate(0deg); }
   100% { transform: translateY(0px) rotate(-1deg); }
 }
-
 img.portrait:hover {
   transform: rotate(0deg) scale(1.05);
   box-shadow: 0 12px 28px rgba(0,0,0,0.25);
 }
 
-/* Doodle Caption */
+/* Caption */
 .portrait-caption {
   font-family: 'Nanum Pen Script', cursive;
   color: #5da9ff;
@@ -136,77 +132,104 @@ img.portrait:hover {
   transform: rotate(-2deg);
 }
 
-/* Gallery (Album) */
+/* 🎁 Universal Auto-Center Gallery */
 .gallery {
   display: flex;
-  overflow-x: auto;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
   gap: 15px;
   padding: 15px;
-  justify-content: flex-start;
   scroll-behavior: smooth;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 900px;
 }
-
 .gallery img {
   flex: 0 0 auto;
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 160px;
   object-fit: cover;
   border-radius: 20px;
   border: 4px solid #a7d8ff;
   transition: transform 0.3s, box-shadow 0.3s;
   cursor: pointer;
+  opacity: 0;
+  animation: fadeIn 0.6s ease forwards;
 }
-
 .gallery img:hover {
-  transform: scale(1.12);
+  transform: scale(1.1);
   box-shadow: 0 6px 18px rgba(0,0,0,0.2);
 }
-
-/* Scrollbar */
-.gallery::-webkit-scrollbar { height: 8px; }
-.gallery::-webkit-scrollbar-thumb {
-  background: #a7d8ff;
-  border-radius: 4px;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.gallery::-webkit-scrollbar-track {
-  background: #e0f0ff;
+.gallery::-webkit-scrollbar { display: none; }
+.gallery { -ms-overflow-style: none; scrollbar-width: none; }
+@media (max-width: 768px) {
+  .gallery {
+    justify-content: center;
+    padding: 10px;
+    gap: 10px;
+  }
+  .gallery img {
+    width: 120px;
+    height: 120px;
+  }
+}
+@media (max-width: 480px) {
+  .gallery {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .gallery img {
+    width: 100px;
+    height: 100px;
+  }
 }
 
-/* Lightbox Overlay */
+/* ✅ Fixed Lightbox */
 .lightbox-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.85);
   display: none;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
-  padding: 20px;
+  z-index: 9999;
+  padding: 10px;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
 }
-
+.lightbox-overlay.show {
+  display: flex;
+  opacity: 1;
+}
 .lightbox-overlay img {
-  max-width: 90%;
-  max-height: 90%;
+  max-width: 90vw;
+  max-height: 85vh;
   border-radius: 18px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  transition: transform 0.3s;
+  transition: transform 0.3s ease;
+  object-fit: contain;
 }
-
-.lightbox-overlay img:hover {
-  transform: scale(1.02);
+.lightbox-overlay img:hover { transform: scale(1.02); }
+@media (max-width: 768px) {
+  .lightbox-overlay { padding: 5px; background: rgba(0,0,0,0.9); }
+  .lightbox-overlay img { max-width: 95vw; max-height: 80vh; }
 }
-
-.lightbox-overlay.show { display: flex; }
 
 /* Music Message */
 #musicMessage {
   font-family: "Comic Sans MS", cursive;
   font-size: 16px;
   color: #5da9ff;
-  background: rgba(255, 255, 255, 0.65);
+  background: rgba(255,255,255,0.65);
   padding: 12px 18px;
   border-radius: 14px;
   width: fit-content;
@@ -221,57 +244,105 @@ img.portrait:hover {
   left: 50%;
   z-index: 999;
 }
-.show {
-  opacity: 1 !important;
-  transform: translateX(-50%) scale(1) !important;
-}
-.hidden {
-  opacity: 0 !important;
-  transform: translateX(-50%) scale(0.8) !important;
-}
+.show { opacity: 1 !important; transform: translateX(-50%) scale(1) !important; }
+.hidden { opacity: 0 !important; transform: translateX(-50%) scale(0.8) !important; }
 
-/* Cake glow + bounce */
+/* Cake bounce */
 @keyframes cakeGlowBounce {
-  0% { transform: translateY(0px); box-shadow: 0 8px 22px rgba(0,0,0,0.18), 0 0 0px #a7d8ff; }
-  25% { transform: translateY(-8px); box-shadow: 0 10px 26px rgba(0,0,0,0.25), 0 0 12px #a7d8ff; }
-  50% { transform: translateY(0px); box-shadow: 0 8px 22px rgba(0,0,0,0.18), 0 0 20px #a7d8ff; }
-  75% { transform: translateY(-4px); box-shadow: 0 9px 24px rgba(0,0,0,0.22), 0 0 14px #a7d8ff; }
-  100% { transform: translateY(0px); box-shadow: 0 8px 22px rgba(0,0,0,0.18), 0 0 0px #a7d8ff; }
+  0%,100%{transform:translateY(0);box-shadow:0 8px 22px rgba(0,0,0,0.18),0 0 0px #a7d8ff;}
+  50%{transform:translateY(-6px);box-shadow:0 8px 24px rgba(0,0,0,0.22),0 0 20px #a7d8ff;}
+}
+.cake-glow-bounce { animation: cakeGlowBounce 0.8s ease-in-out; }
+
+/* 🎁 Loading Screen */
+#loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #dff6ff, #a6d6ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 20000;
+  transition: opacity 1s ease, visibility 1s ease;
 }
 
-.cake-glow-bounce {
-  animation: cakeGlowBounce 0.8s ease-in-out;
+.loading-container {
+  text-align: center;
 }
+
+.loading-container h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 1.6rem;
+  color: #3b6ea5;
+  animation: pulseText 1.5s infinite ease-in-out;
+  margin-bottom: 10px;
+}
+
+.loading-bar {
+  width: 250px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(90, 170, 255, 0.4);
+}
+
+.loading-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #5da9ff, #a7d8ff, #5da9ff);
+  border-radius: 10px;
+  animation: fillBar 3s linear infinite;
+}
+
+.loading-hearts {
+  margin-top: 12px;
+  font-size: 1.5rem;
+  animation: pulseHearts 1.8s ease-in-out infinite;
+}
+
+@keyframes fillBar {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+@keyframes pulseText {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+@keyframes pulseHearts {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+#loading-screen.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
 </style>
 </head>
 <body>
 
-<!-- CLOUDS -->
-<img class="cloud" src="https://files.catbox.moe/6dtiao.png" style="top:15%; left:-200px; animation-duration:55s;">
-<img class="cloud" src="https://files.catbox.moe/6dtiao.png" style="top:30%; left:50%; animation-duration:75s;">
-<img class="cloud" src="https://files.catbox.moe/6dtiao.png" style="top:5%; left:80%; animation-duration:60s;">
-<img class="cloud" src="https://files.catbox.moe/6dtiao.png" style="top:10%; left:75%; width:200px; animation-duration:65s;">
-<img class="cloud" src="https://files.catbox.moe/6dtiao.png" style="top:20%; left:85%; width:180px; animation-duration:70s;">
-<img class="cloud" src="https://files.catbox.moe/6dtiao.png" style="top:35%; left:78%; width:220px; animation-duration:90s;">
-<img class="cloud" src="https://files.catbox.moe/6dtiao.png" style="top:5%; left:88%; width:160px; animation-duration:85s;">
-<img class="cloud" src="https://files.catbox.moe/6dtiao.png" style="top:25%; left:92%; width:190px; animation-duration:75s;">
-<img class="cloud" src="https://files.catbox.moe/6dtiao.png" style="top:40%; left:80%; width:170px; animation-duration:100s;">
-<img class="cloud" src="https://files.catbox.moe/6dtiao.png" style="top:8%; left:95%; width:150px; animation-duration:95s;">
 <h1>Happy Birthday, Gaga! 🎂💙💗</h1>
 
-<!-- Portrait -->
 <div class="portrait-container">
-  <img class="portrait" src="https://i.pinimg.com/736x/c0/04/8c/c0048c770d3e50c0b114b2de73e3ea66.jpg" alt="Gaga portrait">
+  <img class="portrait" src="https://i.pinimg.com/736x/c0/04/8c/c0048c770d3e50c0b114b2de73e3ea66.jpg">
   <span class="portrait-caption">Me, Her, Amarise!</span>
 </div>
 
-<!-- Buttons -->
 <div class="icon-row">
-  <div class="icon-button" onclick="show('letter')"><img src="https://i.pinimg.com/736x/42/94/1c/42941c89443ccb10ab13d81ae36bc74d.jpg" alt="Letter"><br>Letter</div>
-  <div class="icon-button" onclick="show('cake')"><img src="https://i.pinimg.com/736x/a9/46/1a/a9461a9d69de778a71a02d402a7d474a.jpg" alt="Cake"><br>Cake</div>
-  <div class="icon-button" onclick="show('pics')"><img src="https://i.pinimg.com/736x/98/0d/23/980d2322e11a11a1af6865ad00eb2f6c.jpg" alt="Pictures"><br>Pictures</div>
+  <div class="icon-button" onclick="show('letter')"><img src="https://i.pinimg.com/736x/42/94/1c/42941c89443ccb10ab13d81ae36bc74d.jpg"><br>Letter</div>
+  <div class="icon-button" onclick="show('cake')"><img src="https://i.pinimg.com/736x/a9/46/1a/a9461a9d69de778a71a02d402a7d474a.jpg"><br>Cake</div>
+  <div class="icon-button" onclick="show('pics')"><img src="https://i.pinimg.com/736x/98/0d/23/980d2322e11a11a1af6865ad00eb2f6c.jpg"><br>Pictures</div>
   <div class="icon-button" onclick="playSong(this)">
-    <img src="https://i.pinimg.com/1200x/11/e0/62/11e062541dbe6a110a34e325ea03f055.jpg" alt="Music"><br>Music
+    <img src="https://i.pinimg.com/1200x/11/e0/62/11e062541dbe6a110a34e325ea03f055.jpg"><br>Music
   </div>
 </div>
 
@@ -280,169 +351,211 @@ img.portrait:hover {
   Listen to it while reading my letter hehe! 💗
 </div>
 
-<!-- LETTER -->
+<!-- Sections -->
 <section id="letter" class="section">
-  <div id="paper">
-    <!-- (Letter text unchanged, keeping your exact heartfelt message) -->
-    Hiii Gaga!
-    So this is your birthday letter — but honestly, it’s more than that for me. First of all, happiest birthday to someone very special, very genuine, and someone I truly look up to — Giorgia Mathia Hardillo Arcebuche. 💐
-    
-    It’s been 47 days since you confessed to me (A month and a half... yes, I’m counting kasi memorable yun) and now… tayo na. As in MU, hellooo?? Grabe yan na tayo. I still find it funny and cute at the same time. And before you say “halaaa bakit may pa-emeng letter si Steven nakakainis 'to” — I know you love letters, so siyempre I’m giving you one. This is for your special day, because you deserve something thoughtful and personal.
-    
-    Yes, Gaga. Being with you these past weeks has made me genuinely happy — like, the kind of happy that’s simple but real. I really hope I make you just as happy, or even more. I’m super grateful for you and for us. Talking to you, being around you, hearing your stories, laughing with you over the smallest things — it feels like such a blessing every time. It’s something I never take for granted.
-    
-    Remember to keep yourself healthy, okay? Drinking water is free, please. And I know sleeping early feels impossible kasi “di pa ako inaantok” pero ate ko… it’s already 3AM… pag tayo hinabol ng araw. 😭 But really — I hope you take care of yourself the same way you care about everyone else. You deserve that same softness and care.
-    
-    Also, thank you — for being you. The version of you that laughs too hard at my corniest jokes, the one who gets shy but still tries, the one who cares in quiet ways, the one who makes the jokes funnier in her head haha. I love every part of that. It’s crazy how someone can just enter your life and make everything feel lighter, softer, certain, and more exciting — but that’s exactly what you did.
-    Akala ko normal lang lahat… then there was you. Boom. Plot twist. Gulat2x. Everything became better mga 101% siguro.
-    
-    You were the quiet prayer I didn’t even know I was whispering.
-    And somehow, you arrived right on time.
-    
-    Sometimes I catch myself saving little things you said — a laugh, a text, the way you side eye me when I say something sweet or funny or even random lang, the way you can't look at me in person — and when I read them back, I realize I’m holding a whole future I didn’t know I could be allowed to have. If ever you feel unsure or small, know that there’s someone who notices every gentle/great thing about you, who keeps them safe, and who will choose you again and again. Di yan eme — it’s my real promise (yk the rest).
-    
-    And honestly, I still can’t believe na tayo. Like… wow?? Ako?? Ikaw?? Us???
-    Sino pumayag dito?? Ay tayo ba? Pero thank God we did, because I really feel lucky to have you.
-    
-    I hope today makes you feel loved — not just because it’s your birthday, but because you’re really someone worth celebrating every day. And I’ll show that not just through big things, but through the small everyday ones.
-    The “Kumain ka na?”
-    “Uwi ka na?”
-    “Tulog ka na?”
-    "Nagawa mo na ba yun assignment mo?"
-    "Panget" Ay mali.
-    Yes, corny, but that’s me caring in my own way.
-    
-    You deserve happiness that’s stable and warm. And I hope, in whatever way I can, I get to be part of that happiness with you.
-    
-    So happy birthday again, Giorgia na dinaig yun mundo. My favorite headache minsan, but still my favorite 😌
-    Here’s to more days, more calls, more laughs, more moments that feel like home — with you.
-    
-    And also, I want you to know this — slowly but surely lang tayo. I’m not rushing anything, because what we have is something I want to build properly. I want to show my intentions not just through words, but through consistency and respect.
-    
-    When the time is right, I’ll ask for your parents’ approval — properly, respectfully, and proudly. Because you’re someone I’m not afraid to show up for. Someone I’m willing to be patient for. Someone worth the wait.
-    
-    And I’m here — not just for the soft/kilig moments, but for everything real that comes with you.
-    
-    And before I end this — quick lang:
-    
-    You’re really pretty, Gia.
-    
-    …Oo na, I know haha.
-    “Nakakainis.” 😭
-    
-    But that’s us, diba?
-    Yung “nakakainis” but actually means
-    “I like you talaga it’s annoying.”, and it shows.
-    And honestly, I wouldn’t change that.
-    Happy Birthday, Giorgia. More to come.
-    
-    Love,
-    – J**e Steven Mendoza (nakakainis din minsan) 😌
-  </div>
+  <div id="paper">Hiii Gaga!
+So this is your birthday letter — but honestly, it’s more than that for me. First of all, happiest birthday to someone very special, very genuine, and someone I truly look up to — Giorgia Mathia Hardillo Arcebuche. 💐
+
+It’s been 47 days since you confessed to me (A month and a half... yes, I’m counting kasi memorable yun) and now… tayo na. As in MU, hellooo?? Grabe yan na tayo. I still find it funny and cute at the same time. And before you say “halaaa bakit may pa-emeng letter si Steven nakakainis ’to” — I know you love letters, so siyempre I’m giving you one. This is for your special day, because you deserve something thoughtful and personal.
+
+Yes, Gaga. Being with you these past weeks has made me genuinely happy — like, the kind of happy that’s simple but real. I really hope I make you just as happy, or even more. I’m super grateful for you and for us. Talking to you, being around you, hearing your stories, laughing with you over the smallest things — it feels like such a blessing every time. It’s something I never take for granted.
+
+Remember to keep yourself healthy, okay? Drinking water is free, please. And I know sleeping early feels impossible kasi “di pa ako inaantok” pero ate ko… it’s already 3AM… pag tayo hinabol ng araw. 😭 But really — I hope you take care of yourself the same way you care about everyone else. You deserve that same softness and care.
+
+Also, thank you — for being you. The version of you that laughs too hard at my corniest jokes, the one who gets shy but still tries, the one who cares in quiet ways, the one who makes the jokes funnier in her head haha. I love every part of that. It’s crazy how someone can just enter your life and make everything feel lighter, softer, certain, and more exciting — but that’s exactly what you did.
+Akala ko normal lang lahat… then there was you. Boom. Plot twist. Gulat2x. Everything became better mga 101% siguro.
+
+You were the quiet prayer I didn’t even know I was whispering.
+And somehow, you arrived right on time.
+
+Sometimes I catch myself replaying the little things about you — like your laugh na may saltik (I love that), the way you look away pag nahiya ka (sinasadya ko na minsan), or how your random messages somehow make everything feel lighter. Minsan simple lang naman yung moment, pero when I think about it, it hits me — grabe, ang saya kong meron ka.
+
+And when I read back our old messages or remember those tiny details, I realize… hindi lang pala memories ‘to. It’s like I’m holding on to little pieces of our future — something I never thought I’d be lucky enough to have.
+
+So if ever you feel small or unsure, please remember this: may isang taong nakakakita sa’yo — sa lahat ng tahimik mong effort, sa lambing mong di mo minsan napapansin, sa ganda mong hindi mo kailangang ipilit — and that person will keep choosing you. Kahit mahirap minsan, kahit di perfect, kahit pagod, kahit di mo na kaya.
+
+Promise ‘to, Gia. Hindi lang sa mga kilig moments, pero sa lahat-lahat — I’ll be here, still choosing you, still keeping you safe in all the small ways I can. And that’s something I’ll pray for every single day — that I get to keep showing up for you, in all the ways that matter.
+
+Because truthfully, you’re not just someone I like — you’re someone I thank God for, every single time I remember how it feels to love and be loved this way.
+
+And honestly, I still can’t believe na tayo. Like… wow?? Ako?? Ikaw?? Us???
+Sino pumayag dito?? Ay tayo ba? Pero thank God we did, because I really feel lucky to have you.
+
+I hope today makes you feel loved — not just because it’s your birthday, but because you’re really someone worth celebrating every day. And I’ll show that not just through big things, but through the small everyday ones.
+The “Kumain ka na?”
+“Uwi ka na?”
+“Tulog ka na?”
+"Nagawa mo na ba yun assignment mo?"
+“Panget” — ay mali.
+Yes, corny, but that’s me caring in my own way.
+
+You deserve happiness that’s stable and warm. And I hope, in whatever way I can, I get to be part of that happiness with you.
+
+So happy birthday again, Giorgia na dinaig yun mundo. My favorite headache minsan, but still my favorite 😌
+Here’s to more days, more calls, more laughs, more moments that feel like home — with you.
+
+And also, I want you to know this — slowly but surely lang tayo. I’m not rushing anything, because what we have is something I want to build properly. I want to show my intentions not just through words, but through consistency and respect.
+
+When the time is right, I’ll ask for your parents’ approval — properly, respectfully, and proudly. Because you’re someone I’m not afraid to show up for. Someone I’m willing to be patient for. Someone worth the wait.
+
+And I’m here — not just for the soft/kilig moments, but for everything real that comes with you.
+
+And before I end this — quick lang:
+
+You’re really pretty, Gia.
+…Oo na, I know haha.
+“Nakakainis.” 😭
+
+But that’s us, diba?
+Yung “nakakainis” but actually means
+“I like you talaga it’s annoying.” And it shows.
+And honestly, I wouldn’t change that.
+
+I try to avoid saying this because it may shock you or you feel like we're rushing, pero I love you, Gia. 😊  This letter represents that — yet it still doesn’t come close to everything I feel for you.
+
+And if ever dumating yung araw na magkalayo tayo — not because we want to, but because life just happens — I hope you’ll remember this version of me:
+the one who wrote this with shaky hands and a full heart,
+the one who meant every “ingat ka,” every “tulog ka na,” every “miss u” even when it sounded casual.
+
+Kasi kahit saan pa tayo dalhin ng panahon, a part of me will always wait for the universe to bring us back to this —
+to this softness, this calm, this feeling of being yours even just for a while.
+
+If one day all we have left are memories, I’ll still thank God for every second He let me love you pero bawal dahil I intend to have a future with you in this lifetime, iyak nalang sila.😝😝😝 
+
+Happy Birthday, Giorgia.
+More to comeee! 😊  😊  😊 
+
+Ps. Sorry nalahat ko na medj here, I just wanted to make it up to you and make this bday pinaka special Kahit online.
+
+Love,
+– J**e Steven Mendoza (nakakainis din minsan) 😌
+
+</div>
 </section>
 
-<!-- CAKE -->
 <section id="cake" class="section">
   <p>🎂 I can't give you a physical cake but I can give you this virtual one! 💙</p>
-  <img id="cake-img" src="https://files.catbox.moe/m44ban.jpg" alt="Cake" style="display:none; border:6px solid #a7d8ff; border-radius:18px; padding:6px; cursor:pointer; transition:transform 0.35s, box-shadow 0.35s;">
+  <img id="cake-img" src="GagaBirthdayGift/assets
+/a9461a9d69de778a71a02d402a7d474a.jpg" alt="Cake" style="display:none; border:6px solid #a7d8ff; border-radius:18px; padding:6px; cursor:pointer; transition:transform 0.35s, box-shadow 0.35s;">
 </section>
 
-<!-- PICTURES -->
 <section id="pics" class="section gallery">
-  <!-- Added loading="lazy" to each -->
-  <img src="https://i.pinimg.com/736x/6b/d9/a6/6bd9a668319e6865b5c1f802a4041573.jpg" alt="1" loading="lazy">
-  <img src="https://files.catbox.moe/la922c.jpg" alt="2" loading="lazy">
-  <img src="https://files.catbox.moe/4b46fz.jpg" alt="3" loading="lazy">
-  <img src="https://files.catbox.moe/y1cajy.jpg" alt="4" loading="lazy">
-  <img src="https://files.catbox.moe/g7cc4n.jpg" alt="5" loading="lazy">
-  <img src="https://files.catbox.moe/ebmhr4.jpg" alt="6" loading="lazy">
-  <img src="https://files.catbox.moe/hvyj9s.jpg" alt="7" loading="lazy">
-  <img src="https://files.catbox.moe/3o86v9.jpg" alt="8" loading="lazy">
-  <img src="https://files.catbox.moe/3ynewd.jpg" alt="9" loading="lazy">
-  <img src="https://files.catbox.moe/5p1pd9.jpg" alt="10" loading="lazy">
-  <img src="https://files.catbox.moe/urxm1t.jpg" alt="11" loading="lazy">
-  <img src="https://files.catbox.moe/pt7qeb.jpg" alt="12" loading="lazy">
-  <img src="https://files.catbox.moe/zcfyrq.jpg" alt="13" loading="lazy">
-  <img src="https://files.catbox.moe/g5mzlv.jpg" alt="14" loading="lazy">
-  <img src="https://files.catbox.moe/vfgh8y.jpg" alt="15" loading="lazy">
-  <img src="https://files.catbox.moe/uq3sar.jpg" alt="16" loading="lazy">
-  <img src="https://files.catbox.moe/n0yaai.jpg" alt="17" loading="lazy">
-  <img src="https://files.catbox.moe/rdw08x.jpg" alt="18" loading="lazy">
-  <img src="https://files.catbox.moe/og2q2c.jpg" alt="19" loading="lazy">
-  <img src="https://files.catbox.moe/h5wpaa.jpg" alt="20" loading="lazy">
-  <img src="https://files.catbox.moe/bsx1z3.jpg" alt="21" loading="lazy">
-  <img src="https://files.catbox.moe/x0k3cl.jpg" alt="22" loading="lazy">
-  <img src="https://files.catbox.moe/5582ag.jpg" alt="23" loading="lazy">
-  <img src="https://files.catbox.moe/ipb9i2.jpg" alt="24" loading="lazy">
+    <img src="https://i.pinimg.com/736x/6b/d9/a6/6bd9a668319e6865b5c1f802a4041573.jpg" alt="0" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/1aa0ce6d-6838-46ff-b45a-629d9ff9fdaa.jpg" alt="1" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/1e789b88-61be-4b7b-b040-92bfac22940a.jpg" alt="2" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/2fc923fe-09f4-4752-94fd-43f8b70a81a2.jpg" alt="3" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/3278408b-01e6-4ba4-958f-516ce0517467.jpg" alt="4" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/34a8a089-a928-486b-b217-bb297177c1e6.jpg" alt="5" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/65543faa-d2f6-40e9-843a-37f299273b45.jpg" alt="6" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/6a4b129b-e959-4a15-857e-ec5b598b5f75.jpg" alt="7" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/755aceae-a6b0-4f2d-aeae-04f41f60b20c.jpg" alt="8" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/7608ebfa-b5d0-4d69-9f00-eee2783cc39d.jpg" alt="9" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/7872cf8b-4bd6-4f85-9733-2e0bee84ec0b.jpg" alt="10" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/861347a5-fc6d-4438-a052-9eaacb6ec5a5.jpg" alt="11" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/86667ec7-49c1-4824-9c9d-1132fd93283d.jpg" alt="12" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/923c1972-056a-4f4b-88f2-d650eb3a73ef.jpg" alt="13" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/9b2d64f4-87f0-4ad0-8bc9-9c3515361402.jpg" alt="14" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/9bb18a2e-f328-4ed7-bc2c-b74ba3e798ed.jpg" alt="15" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/a8d51728-1f24-4e5c-8837-029c93d080bc.jpg" alt="16" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/a926c5c4-5558-4332-8097-d009378b9bcd.jpg" alt="17" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/ae000632-8574-4942-aa71-f27a58b90c58.jpg" alt="18" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/b1efb6cc-0c40-441a-9344-0305d3533f33.jpg" alt="19" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/b5673219-653f-4a58-8e04-9300de2ff3bf.jpg" alt="20" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/c6ea41b4-e8a8-4a0d-bfa5-054e7138a511.jpg" alt="21" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/ca3fd394-6c2b-4f77-bd28-5c3e1a66c531.jpg" alt="22" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/f2b518fe-b100-4ca3-9127-46cb87cc33a1.jpg" alt="23" loading="lazy">
+  <img src="https://kxxru.github.io/GagaBirthdayGift/assets/06ae04ca-6d73-41b7-ae0b-b1593ab749d7.jpg" alt="24" loading="lazy">
 </section>
 
-<audio id="bg-music" src="https://files.catbox.moe/zjmuso.mp3" loop></audio>
+<audio id="bg-music" src="https://kxxru.github.io/GagaBirthdayGift/assets/wwd.mp3juice.blog%20-%20The%20Ridleys%20-%20Be%20with%20you%20%28Lyrics%29%20%28320%20KBps%29.mp3" loop></audio>
 
 <!-- Lightbox -->
-<div id="lightbox" class="lightbox-overlay" onclick="closeLightbox()">
+<div id="lightbox" class="lightbox-overlay">
   <img id="lightbox-img" src="" alt="Lightbox image">
 </div>
 
 <script>
-const cakeImg = document.getElementById('cake-img');
-const cakePics = [
-  "https://files.catbox.moe/m44ban.jpg",
-  "https://files.catbox.moe/v13vzx.jpg"
-];
-let cakeIndex = 0;
-
-function show(sectionId) {
-  document.querySelectorAll(".section").forEach(sec => sec.style.display = "none");
-  const section = document.getElementById(sectionId);
-  section.style.display = "block";
-
-  if(sectionId === "cake") {
-    cakeImg.style.display = "block";
-    cakeImg.src = cakePics[cakeIndex];
-  } else {
-    cakeImg.style.display = "none";
-  }
+const cakeImg=document.getElementById('cake-img');
+const cakePics=["GagaBirthdayGift/assets/a9461a9d69de778a71a02d402a7d474a.jpg","GagaBirthdayGift/assets/af2f18e4-6096-4a66-9501-34d0e47d03c0.jpg"];
+let cakeIndex=0;
+function show(id){
+  document.querySelectorAll(".section").forEach(s=>s.style.display="none");
+  const sec=document.getElementById(id);
+  sec.style.display="block";
+  if(id==="cake"){cakeImg.style.display="block";cakeImg.src=cakePics[cakeIndex];}
+  else{cakeImg.style.display="none";}
 }
-
-cakeImg.addEventListener('click', () => {
-  cakeIndex = (cakeIndex + 1) % cakePics.length;
-  cakeImg.src = cakePics[cakeIndex];
+cakeImg.addEventListener('click',()=>{
+  cakeIndex=(cakeIndex+1)%cakePics.length;
+  cakeImg.src=cakePics[cakeIndex];
   cakeImg.classList.remove('cake-glow-bounce');
   void cakeImg.offsetWidth;
   cakeImg.classList.add('cake-glow-bounce');
 });
 
-const music = document.getElementById("bg-music");
-const musicMessage = document.getElementById("musicMessage");
-
-function playSong(button) {
-  if (music.paused) {
-    music.play().catch(err => console.log("Audio play prevented:", err));
-  }
+const music=document.getElementById("bg-music");
+const musicMessage=document.getElementById("musicMessage");
+function playSong(btn){
+  if(music.paused){music.play().catch(e=>console.log(e));}
   musicMessage.classList.remove("hidden");
   musicMessage.classList.add("show");
-  setTimeout(() => {
-    musicMessage.classList.remove("show");
-    musicMessage.classList.add("hidden");
-  }, 4000);
+  setTimeout(()=>{musicMessage.classList.remove("show");musicMessage.classList.add("hidden");},4000);
 }
 
-// Lightbox functionality
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightbox-img');
-
-document.querySelectorAll('.gallery img').forEach(img => {
-  img.addEventListener('click', () => {
-    lightboxImg.src = img.src;
-    lightbox.classList.add('show');
-    document.body.style.overflow = 'hidden';
+// ✅ Fixed Lightbox
+const lightbox=document.getElementById('lightbox');
+const lightboxImg=document.getElementById('lightbox-img');
+document.querySelectorAll('.gallery img').forEach(img=>{
+  img.addEventListener('click',()=>{
+    lightboxImg.src=img.src;
+    lightbox.style.display="flex";
+    setTimeout(()=>lightbox.classList.add("show"),10);
+    document.body.style.overflow="hidden";
   });
 });
-
-function closeLightbox() {
-  lightbox.classList.remove('show');
-  document.body.style.overflow = '';
+function closeLightbox(){
+  lightbox.classList.remove("show");
+  document.body.style.overflow="";
+  setTimeout(()=>lightbox.style.display="none",300);
 }
+lightbox.addEventListener("click",(e)=>{
+  if(e.target===lightbox||e.target===lightboxImg){closeLightbox();}
+});
 </script>
+
+<!-- 💝 CUTE LOADING SCREEN -->
+<div id="loading-screen">
+  <div class="loading-container">
+    <h2>Loading Birthday Gift for Gaga 💖🎂</h2>
+    <div class="loading-bar">
+      <div class="loading-fill"></div>
+    </div>
+    <div class="loading-hearts">
+      💙💗💙💗
+    </div>
+  </div>
+</div>
+
+<script>
+window.addEventListener("load", () => {
+  const loader = document.getElementById("loading-screen");
+  const fill = document.querySelector(".loading-fill");
+  
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += 2;
+    fill.style.width = progress + "%";
+    if (progress >= 100) {
+      clearInterval(interval);
+      setTimeout(() => {
+        loader.classList.add("fade-out");
+        setTimeout(() => loader.remove(), 1000);
+      }, 300);
+    }
+  }, 50);
+});
+</script>
+
+
 </body>
 </html>
