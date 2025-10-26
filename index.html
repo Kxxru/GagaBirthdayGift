@@ -17,7 +17,7 @@ body {
   text-align: center;
 }
 
-/* Floating Clouds */
+/* Floating Clouds (optional background decor) */
 .cloud {
   position: fixed;
   width: 250px;
@@ -39,7 +39,6 @@ h1 {
   background: rgba(102, 109, 132, 0.6);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
-  background-color: rgba(102, 109, 132, 0.8);
   font-family: "Caveat", "Segoe UI", sans-serif;
   font-size: 2.2rem;
   color: #566d87;
@@ -132,7 +131,7 @@ img.portrait:hover {
   transform: rotate(-2deg);
 }
 
-/* 🎁 Universal Auto-Center Gallery */
+/* Gallery */
 .gallery {
   display: flex;
   justify-content: center;
@@ -140,15 +139,13 @@ img.portrait:hover {
   flex-wrap: wrap;
   gap: 15px;
   padding: 15px;
-  scroll-behavior: smooth;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  margin: 0 auto;
   width: 100%;
   max-width: 900px;
+  margin: 0 auto;
 }
 .gallery img {
-  flex: 0 0 auto;
   width: 160px;
   height: 160px;
   object-fit: cover;
@@ -167,42 +164,17 @@ img.portrait:hover {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.gallery::-webkit-scrollbar { display: none; }
-.gallery { -ms-overflow-style: none; scrollbar-width: none; }
-@media (max-width: 768px) {
-  .gallery {
-    justify-content: center;
-    padding: 10px;
-    gap: 10px;
-  }
-  .gallery img {
-    width: 120px;
-    height: 120px;
-  }
-}
-@media (max-width: 480px) {
-  .gallery {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  .gallery img {
-    width: 100px;
-    height: 100px;
-  }
-}
 
-/* ✅ Fixed Lightbox */
+/* Lightbox */
 .lightbox-overlay {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
+  inset: 0;
   background: rgba(0,0,0,0.85);
   display: none;
   justify-content: center;
   align-items: center;
   z-index: 9999;
   padding: 10px;
-  overflow: hidden;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
@@ -215,13 +187,7 @@ img.portrait:hover {
   max-height: 85vh;
   border-radius: 18px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  transition: transform 0.3s ease;
   object-fit: contain;
-}
-.lightbox-overlay img:hover { transform: scale(1.02); }
-@media (max-width: 768px) {
-  .lightbox-overlay { padding: 5px; background: rgba(0,0,0,0.9); }
-  .lightbox-overlay img { max-width: 95vw; max-height: 80vh; }
 }
 
 /* Music Message */
@@ -234,7 +200,6 @@ img.portrait:hover {
   border-radius: 14px;
   width: fit-content;
   text-align: center;
-  line-height: 1.4;
   border: 2px dashed #a7d8ff;
   opacity: 0;
   transform: translateX(-50%) scale(0.8);
@@ -249,18 +214,15 @@ img.portrait:hover {
 
 /* Cake bounce */
 @keyframes cakeGlowBounce {
-  0%,100%{transform:translateY(0);box-shadow:0 8px 22px rgba(0,0,0,0.18),0 0 0px #a7d8ff;}
-  50%{transform:translateY(-6px);box-shadow:0 8px 24px rgba(0,0,0,0.22),0 0 20px #a7d8ff;}
+  0%,100% { transform: translateY(0); box-shadow: 0 8px 22px rgba(0,0,0,0.18),0 0 0px #a7d8ff; }
+  50% { transform: translateY(-6px); box-shadow: 0 8px 24px rgba(0,0,0,0.22),0 0 20px #a7d8ff; }
 }
 .cake-glow-bounce { animation: cakeGlowBounce 0.8s ease-in-out; }
 
-/* 🎁 Loading Screen */
+/* Loading screen */
 #loading-screen {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: linear-gradient(135deg, #dff6ff, #a6d6ff);
   display: flex;
   justify-content: center;
@@ -269,11 +231,7 @@ img.portrait:hover {
   z-index: 20000;
   transition: opacity 1s ease, visibility 1s ease;
 }
-
-.loading-container {
-  text-align: center;
-}
-
+.loading-container { text-align: center; }
 .loading-container h2 {
   font-family: 'Poppins', sans-serif;
   font-weight: 600;
@@ -282,7 +240,6 @@ img.portrait:hover {
   animation: pulseText 1.5s infinite ease-in-out;
   margin-bottom: 10px;
 }
-
 .loading-bar {
   width: 250px;
   height: 12px;
@@ -291,41 +248,29 @@ img.portrait:hover {
   overflow: hidden;
   box-shadow: 0 0 10px rgba(90, 170, 255, 0.4);
 }
-
 .loading-fill {
   height: 100%;
   width: 0%;
   background: linear-gradient(90deg, #5da9ff, #a7d8ff, #5da9ff);
   border-radius: 10px;
-  animation: fillBar 3s linear infinite;
 }
-
 .loading-hearts {
   margin-top: 12px;
   font-size: 1.5rem;
   animation: pulseHearts 1.8s ease-in-out infinite;
 }
-
-@keyframes fillBar {
-  0% { width: 0%; }
-  100% { width: 100%; }
-}
-
 @keyframes pulseText {
-  0%, 100% { opacity: 0.7; transform: scale(1); }
+  0%,100% { opacity: 0.7; transform: scale(1); }
   50% { opacity: 1; transform: scale(1.08); }
 }
-
 @keyframes pulseHearts {
-  0%, 100% { transform: scale(1); opacity: 0.7; }
+  0%,100% { transform: scale(1); opacity: 0.7; }
   50% { transform: scale(1.2); opacity: 1; }
 }
-
 #loading-screen.fade-out {
   opacity: 0;
   visibility: hidden;
 }
-
 </style>
 </head>
 <body>
@@ -341,19 +286,17 @@ img.portrait:hover {
   <div class="icon-button" onclick="show('letter')"><img src="https://i.pinimg.com/736x/42/94/1c/42941c89443ccb10ab13d81ae36bc74d.jpg"><br>Letter</div>
   <div class="icon-button" onclick="show('cake')"><img src="https://i.pinimg.com/736x/a9/46/1a/a9461a9d69de778a71a02d402a7d474a.jpg"><br>Cake</div>
   <div class="icon-button" onclick="show('pics')"><img src="https://i.pinimg.com/736x/98/0d/23/980d2322e11a11a1af6865ad00eb2f6c.jpg"><br>Pictures</div>
-  <div class="icon-button" onclick="playSong(this)">
-    <img src="https://i.pinimg.com/1200x/11/e0/62/11e062541dbe6a110a34e325ea03f055.jpg"><br>Music
-  </div>
+  <div class="icon-button" onclick="playSong()"><img src="https://i.pinimg.com/1200x/11/e0/62/11e062541dbe6a110a34e325ea03f055.jpg"><br>Music</div>
 </div>
 
 <div id="musicMessage" class="hidden">
-  Since you couldn't listen to the song 😊<br>
-  Listen to it while reading my letter hehe! 💗
+  Since you couldn't listen to the song 😊<br>Listen to it while reading my letter hehe! 💗
 </div>
 
 <!-- Sections -->
 <section id="letter" class="section">
-  <div id="paper">Hiii Gaga!
+  <div id="paper">
+    Hiii Gaga!
 So this is your birthday letter — but honestly, it’s more than that for me. First of all, happiest birthday to someone very special, very genuine, and someone I truly look up to — Giorgia Mathia Hardillo Arcebuche. 💐
 
 It’s been 47 days since you confessed to me (A month and a half... yes, I’m counting kasi memorable yun) and now… tayo na. As in MU, hellooo?? Grabe yan na tayo. I still find it funny and cute at the same time. And before you say “halaaa bakit may pa-emeng letter si Steven nakakainis ’to” — I know you love letters, so siyempre I’m giving you one. This is for your special day, because you deserve something thoughtful and personal.
@@ -430,17 +373,18 @@ Ps. Sorry nalahat ko na medj here, I just wanted to make it up to you and make t
 Love,
 – J**e Steven Mendoza (nakakainis din minsan) 😌
 
-</div>
+
+  </div>
 </section>
 
 <section id="cake" class="section">
   <p>🎂 I can't give you a physical cake but I can give you this virtual one! 💙</p>
-  <img id="cake-img" src="GagaBirthdayGift/assets
-/a9461a9d69de778a71a02d402a7d474a.jpg" alt="Cake" style="display:none; border:6px solid #a7d8ff; border-radius:18px; padding:6px; cursor:pointer; transition:transform 0.35s, box-shadow 0.35s;">
+  <img id="cake-img" src="https://kxxru.github.io/GagaBirthdayGift/assets/a9461a9d69de778a71a02d402a7d474a.jpg"
+       alt="Cake" style="display:none; border:6px solid #a7d8ff; border-radius:18px; padding:6px; cursor:pointer;">
 </section>
 
 <section id="pics" class="section gallery">
-    <img src="https://i.pinimg.com/736x/6b/d9/a6/6bd9a668319e6865b5c1f802a4041573.jpg" alt="0" loading="lazy">
+  <img src="https://i.pinimg.com/736x/6b/d9/a6/6bd9a668319e6865b5c1f802a4041573.jpg" alt="0" loading="lazy">
   <img src="https://kxxru.github.io/GagaBirthdayGift/assets/1aa0ce6d-6838-46ff-b45a-629d9ff9fdaa.jpg" alt="1" loading="lazy">
   <img src="https://kxxru.github.io/GagaBirthdayGift/assets/1e789b88-61be-4b7b-b040-92bfac22940a.jpg" alt="2" loading="lazy">
   <img src="https://kxxru.github.io/GagaBirthdayGift/assets/2fc923fe-09f4-4752-94fd-43f8b70a81a2.jpg" alt="3" loading="lazy">
@@ -469,78 +413,75 @@ Love,
 
 <audio id="bg-music" src="https://kxxru.github.io/GagaBirthdayGift/assets/wwd.mp3juice.blog%20-%20The%20Ridleys%20-%20Be%20with%20you%20%28Lyrics%29%20%28320%20KBps%29.mp3" loop></audio>
 
-<!-- Lightbox -->
 <div id="lightbox" class="lightbox-overlay">
   <img id="lightbox-img" src="" alt="Lightbox image">
 </div>
 
+<!-- Scripts -->
 <script>
-const cakeImg=document.getElementById('cake-img');
-const cakePics=["GagaBirthdayGift/assets/a9461a9d69de778a71a02d402a7d474a.jpg","GagaBirthdayGift/assets/af2f18e4-6096-4a66-9501-34d0e47d03c0.jpg"];
-let cakeIndex=0;
-function show(id){
-  document.querySelectorAll(".section").forEach(s=>s.style.display="none");
-  const sec=document.getElementById(id);
-  sec.style.display="block";
-  if(id==="cake"){cakeImg.style.display="block";cakeImg.src=cakePics[cakeIndex];}
-  else{cakeImg.style.display="none";}
+const cakeImg = document.getElementById('cake-img');
+const cakePics = [
+  'https://kxxru.github.io/GagaBirthdayGift/assets/a9461a9d69de778a71a02d402a7d474a.jpg',
+  'https://kxxru.github.io/GagaBirthdayGift/assets/af2f18e4-6096-4a66-9501-34d0e47d03c0.jpg'
+];
+let cakeIndex = 0;
+
+function show(id) {
+  document.querySelectorAll(".section").forEach(s => s.style.display = "none");
+  const sec = document.getElementById(id);
+  if (sec) sec.style.display = "block";
+  if (id === "cake") {
+    cakeImg.style.display = "block";
+    cakeImg.src = cakePics[cakeIndex];
+  } else {
+    cakeImg.style.display = "none";
+  }
 }
-cakeImg.addEventListener('click',()=>{
-  cakeIndex=(cakeIndex+1)%cakePics.length;
-  cakeImg.src=cakePics[cakeIndex];
+
+cakeImg.addEventListener('click', () => {
+  cakeIndex = (cakeIndex + 1) % cakePics.length;
+  cakeImg.src = cakePics[cakeIndex];
   cakeImg.classList.remove('cake-glow-bounce');
   void cakeImg.offsetWidth;
   cakeImg.classList.add('cake-glow-bounce');
 });
 
-const music=document.getElementById("bg-music");
-const musicMessage=document.getElementById("musicMessage");
-function playSong(btn){
-  if(music.paused){music.play().catch(e=>console.log(e));}
+const music = document.getElementById("bg-music");
+const musicMessage = document.getElementById("musicMessage");
+function playSong(){
+  if(music.paused){ music.play().catch(e=>console.log(e)); }
   musicMessage.classList.remove("hidden");
   musicMessage.classList.add("show");
-  setTimeout(()=>{musicMessage.classList.remove("show");musicMessage.classList.add("hidden");},4000);
+  setTimeout(()=>{
+    musicMessage.classList.remove("show");
+    musicMessage.classList.add("hidden");
+  },4000);
 }
 
-// ✅ Fixed Lightbox
-const lightbox=document.getElementById('lightbox');
-const lightboxImg=document.getElementById('lightbox-img');
-document.querySelectorAll('.gallery img').forEach(img=>{
-  img.addEventListener('click',()=>{
-    lightboxImg.src=img.src;
-    lightbox.style.display="flex";
-    setTimeout(()=>lightbox.classList.add("show"),10);
-    document.body.style.overflow="hidden";
+/* Lightbox */
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+document.querySelectorAll('.gallery img').forEach(img => {
+  img.addEventListener('click', () => {
+    lightboxImg.src = img.src;
+    lightbox.style.display = "flex";
+    setTimeout(() => lightbox.classList.add("show"), 10);
+    document.body.style.overflow = "hidden";
   });
 });
-function closeLightbox(){
+function closeLightbox() {
   lightbox.classList.remove("show");
-  document.body.style.overflow="";
-  setTimeout(()=>lightbox.style.display="none",300);
+  document.body.style.overflow = "";
+  setTimeout(() => lightbox.style.display = "none", 300);
 }
-lightbox.addEventListener("click",(e)=>{
-  if(e.target===lightbox||e.target===lightboxImg){closeLightbox();}
+lightbox.addEventListener("click", e => {
+  if(e.target === lightbox || e.target === lightboxImg){ closeLightbox(); }
 });
-</script>
 
-<!-- 💝 CUTE LOADING SCREEN -->
-<div id="loading-screen">
-  <div class="loading-container">
-    <h2>Loading Birthday Gift for Gaga 💖🎂</h2>
-    <div class="loading-bar">
-      <div class="loading-fill"></div>
-    </div>
-    <div class="loading-hearts">
-      💙💗💙💗
-    </div>
-  </div>
-</div>
-
-<script>
+/* Loading Screen */
 window.addEventListener("load", () => {
   const loader = document.getElementById("loading-screen");
   const fill = document.querySelector(".loading-fill");
-  
   let progress = 0;
   const interval = setInterval(() => {
     progress += 2;
@@ -556,6 +497,14 @@ window.addEventListener("load", () => {
 });
 </script>
 
+<!-- Cute Loading Screen -->
+<div id="loading-screen">
+  <div class="loading-container">
+    <h2>Loading Birthday Gift for Gaga 💖🎂</h2>
+    <div class="loading-bar"><div class="loading-fill"></div></div>
+    <div class="loading-hearts">💙💗💙💗</div>
+  </div>
+</div>
 
 </body>
 </html>
